@@ -14,26 +14,26 @@ __Installation__
 There are two different ways to install the packages in this repository. The following sections detail installing the packages using the binary distribution and building them from source in a Catkin workspace.
 
 
-___Using apt (Ubuntu, Debian)___
+___Using binary release, apt (Ubuntu, Debian)___
 
-On supported Linux distributions (Ubuntu, up to 16.04 (Xenial), `i386` and `amd64`) and ROS versions:
+On supported Linux distributions (Ubuntu up to 16.04 (Xenial), `i386,` and `amd64`) and ROS versions:
 
 ```
 sudo apt-get install ros-$ROS_DISTRO-universal-robot
 ```
 
-replace `$ROS_DISTRO` with `hydro`, `indigo` or `kinetic`, depending on which ROS version you have installed.
+replace `$ROS_DISTRO` with `hydro`, `indigo`, `kinetic`, or `melodic`, depending on which ROS version you have installed.
 
 
 ___Building from Source___
 
-There are releases available for ROS Hydro, Indigo and Kinetic. However, for the latest features and developments you might want to build the packages from source.
+There are releases available for ROS Hydro, Indigo, Kinetic, and Melodic. However, for the latest features and developments you might want to build the packages from source.
 
-**NOTE**: please prefer using the binary release (see previous section) over building from source where possible. Source installs will not be automatically updated by new package releases and require more work to setup.
+**NOTE**: Using the binary release instructions in the previous section is preferred over building from source where possible. Source installs will not be automatically updated by new package releases and require more work to setup.  
 
-The following instructions assume that a [Catkin workspace](http://wiki.ros.org/catkin/Tutorials/create_a_workspace) has been created at `$HOME/catkin_ws` and that the source space is at `$HOME/catkin_ws/src`. Update paths appropriately if they are different on the build machine.
+The following instructions assume a [Catkin workspace](http://wiki.ros.org/catkin/Tutorials/create_a_workspace) has been created at `$HOME/catkin_ws` and the source space is at `$HOME/catkin_ws/src`. Update paths appropriately if they are different on the build machine.
 
-In all other cases the packages will have to be build from sources in a Catkin workspace: 
+To build from sources in a Catkin workspace: 
 
 ```
 cd $HOME/catkin_ws/src
@@ -50,17 +50,22 @@ rosdep install --rosdistro $ROS_DISTRO --ignore-src --from-paths src
 # building
 catkin_make
 
-# activate this workspace
+# activate and source this workspace
 source $HOME/catkin_ws/devel/setup.bash
 ```
 
-
 __Usage__
 
-___With real Hardware___
-There are launch files available to bringup a real robot - either UR5 or UR10.  
-In the following the commands for the UR5 are given. For the UR10, simply replace the prefix accordingly.
+The following sections detail using universal robot with real and simulated hardware.  
 
+There are launch files already included in the installed packages to bring up a real robot - either UR5 or UR10. The UR5 commands are given as follows. For the UR10, simply replace the prefix accordingly.
+
+___Note: ur_modern_driver___
+ **Ur_modern_driver should be always be used except, potentially, for CB2 or CB1 controllers.** The ur_modern_driver has been made for Ur3/UR5/UR10 robot arms from Universal Robots to improve usabliity and enable ros_control compatibility.
+
+Ur_modern_driver installation and usage instructions can be found at https://github.com/ros-industrial/ur_modern_driver. 
+
+___With real hardware___   
 Don't forget to source the correct setup shell files and use a new terminal for each command!   
 
 To bring up the real robot, run:
@@ -69,14 +74,14 @@ To bring up the real robot, run:
 
 
 CAUTION:  
-Remember that you should always have your hands on the big red button in case there is something in the way or anything unexpected happens.
+Remember that you should always have your hands on the big red button in case there is something in the way or anything unexpected happens to your hardware robot.
 
 
-___MoveIt! with real Hardware___  
+___MoveIt! with real hardware___  
 Additionally, you can use MoveIt! to control the robot.  
-There exist MoveIt! configuration packages for both robots.  
+MoveIt! configuration packages exist for both robots.  
 
-For setting up the MoveIt! nodes to allow motion planning run:
+For setting up MoveIt! nodes to allow motion planning run:
 
 ```roslaunch ur5_moveit_config ur5_moveit_planning_execution.launch```
 
@@ -86,7 +91,7 @@ For starting up RViz with a configuration including the MoveIt! Motion Planning 
 
 
 NOTE:  
-As MoveIt! seems to have difficulties with finding plans for the UR with full joint limits [-2pi, 2pi], there is a joint_limited version using joint limits restricted to [-pi,pi]. In order to use this joint limited version, simply use the launch file arguments 'limited', i.e.:  
+As MoveIt! seems to have difficulties with finding plans for UR with full joint limits [-2pi, 2pi], there is a joint_limited version using joint limits restricted to [-pi,pi]. In order to use this joint limited version, simply use the launch file arguments 'limited', i.e.:  
 
 ```roslaunch ur_bringup ur5_bringup.launch limited:=true robot_ip:=IP_OF_THE_ROBOT [reverse_port:=REVERSE_PORT]```
 
@@ -96,9 +101,6 @@ As MoveIt! seems to have difficulties with finding plans for the UR with full jo
 
 
 ___Usage with Gazebo Simulation___  
-There are launch files available to bringup a simulated robot - either UR5 or UR10.  
-In the following the commands for the UR5 are given. For the UR10, simply replace the prefix accordingly.
-
 Don't forget to source the correct setup shell files and use a new terminal for each command!   
 
 To bring up the simulated robot in Gazebo, run:
@@ -119,7 +121,7 @@ For starting up RViz with a configuration including the MoveIt! Motion Planning 
 
 
 NOTE:  
-As MoveIt! seems to have difficulties with finding plans for the UR with full joint limits [-2pi, 2pi], there is a joint_limited version using joint limits restricted to [-pi,pi]. In order to use this joint limited version, simply use the launch file arguments 'limited', i.e.:  
+As MoveIt! seems to have difficulties with finding plans for UR with full joint limits [-2pi, 2pi], there is a joint_limited version using joint limits restricted to [-pi,pi]. In order to use this joint limited version, simply use the launch file arguments 'limited', i.e.:  
 
 ```roslaunch ur_gazebo ur5.launch limited:=true```
 
@@ -128,3 +130,5 @@ As MoveIt! seems to have difficulties with finding plans for the UR with full jo
 ```roslaunch ur5_moveit_config moveit_rviz.launch config:=true```
 
 
+__License__   
+BSD license usage; see package.xml. 
